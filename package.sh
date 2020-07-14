@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 choco install 7zip nuget.commandline
 nuget install WiX
