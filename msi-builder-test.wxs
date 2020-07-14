@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+    xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+    <Product Name="msi-builder-test" Id="e44245d7-e488-4d8c-a66c-ea5c53c93d85"
+        UpgradeCode="e44245d7-e488-4d8c-a66c-ea5c53c93d85" Language="1033"
+        Codepage="1252" Version="0.0.3" Manufacturer="johnmccabe.net">
+
+        <Package Id="*" Keywords='Installer' Description="msi-builder-test Installer"
+            Comments="Testing MSI generation using WIX." Manufacturer="johnmccabe.net"
+            InstallerVersion="200" Compressed="yes"  SummaryCodepage="1252"/>
+
+        <Upgrade Id='e44245d7-e488-4d8c-a66c-ea5c53c93d85'>
+            <UpgradeVersion OnlyDetect='yes' Property='NEWERFOUND'
+                Minimum='0.0.3' IncludeMinimum='no' />
+        </Upgrade>
+
+        <CustomAction Id='NoDowngrade' Error='A later version of [ProductName] is already installed.' />
+
+        <MediaTemplate EmbedCab="yes"/>
+
+        <WixVariable Id="WixUILicenseRtf" Value=" license.rtf"/>
+
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+            <Directory Id="ProgramFiles64Folder" Name='PFiles'>
+                <Directory Id='OpenFaas' Name='OpenFaas'>
+                    <Directory Id="INSTALLDIR" Name="msi-builder-test">
+
+                        <Component Id='FaasCLI' Guid='0e3ab788-b15a-4748-b15d-6a0a2caca097'>
+                        
+                            <File Id='FaasCLIEXE' Name='msi-builder-test.exe' DiskId='1'
+                                Source='msi-builder-test.exe' KeyPath='yes' />
+
+                        </Component>
+
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+        
+        <DirectoryRef Id="INSTALLDIR">
+            <!-- Add to PATH -->
+            <Component Id="ModifyPathEnv" Guid="4ad63f9d-cab8-41fe-a8d1-7e329adf4d51" KeyPath="yes">
+                <Environment Id="PathEnv" Value="[INSTALLDIR]" Name="PATH" Permanent="no" Part="first" Action="set" System="yes"/>
+            </Component>
+        </DirectoryRef>
+
+        <Feature Id='Complete' Level='1'>
+            <ComponentRef Id='FaasCLI' />
+            <ComponentRef Id='ModifyPathEnv' />
+        </Feature>
+
+        <InstallExecuteSequence>
+            <Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
+        </InstallExecuteSequence>
+
+    </Product>
+</Wix>

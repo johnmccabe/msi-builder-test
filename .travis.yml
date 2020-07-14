@@ -1,9 +1,10 @@
 language: go
 
 go:
-- 1.14.x
+  - 1.14.x
 
 script: ./build.sh
+before_deploy: package.sh
 
 os: windows
 
@@ -11,7 +12,9 @@ deploy:
   provider: releases
   api_key:
     secure: WJdxfFAYOvZCDUf2zL3dECj7kuuaLMPw7d/sHZk3semb8ts7WvrcmrKWvkSqCdLkkoOt3eMRBxI9JIL7gc8H4Vi8sJVlXtOLJWzVijbmVpNwGrkyWJ4kAho+ervavfbo+xw0Mbl+2TBGrg4v41PzI7XDlu41xCnM1O6Ihjitby1AvuAsMuQpsjM/CkdLT5RkxDiiozfJNXJiXy/F5NMB+nBAicdwXyCR7kqjA4z3XFjj7j90E24JQVWVs2Tm4eUg4+tqdpnUqQcLK/PqysIAl8AY60hkJIyL4M05T7LfuxWkc1PTwnNf3PZlBsUvIlXzOH8jE9HeZ2Ja2U3wheULbtL1MzctnqSRW/2VUOL0BhvjnRfMucMq4zUpucHN6K4rQVnboSz8Zl6IE6QtFJZWY/GOhnQUjac4TrD7Rovr+9JwBHX1OgqG6X2Pf2VFykUJdUc3kFdnCPJN8pRsp9yZXhJYVlCONnAkhwgPswaDZO/hgr8XClqoPQhQEfBEamArfUYpGCO8DKIs0fSl+wnSCslIn1CWc4PFAejR/wDsHAKQmOUd5/9/lpD0Nb0iLgoUwLnu/804hAdn161iMmP1spwAL47oFcFsvfexJHsMFDc4sTqy29WhAah4b00w1PDrd44mcqmpUhDs8bL6KMavAS0eXEmJGkgWOIFFZsNortc=
-  file: msi-builder-test.exe
+  file: 
+    - msi-builder-test.exe
+    - msi-builder-test-installer.msi
   skip_cleanup: true
   on:
     tags: true
